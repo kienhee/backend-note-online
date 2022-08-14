@@ -45,7 +45,8 @@ class userController {
                     let userId = user?.id;
                     let accessToken = jwt.sign(
                         { id: user.id },
-                        process.env.PRIVATE_KEY
+                        process.env.PRIVATE_KEY,
+                        { expiresIn: "1h" }
                     );
                     return res.json({
                         message: "Login successfully 🎉",

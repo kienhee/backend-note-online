@@ -27,8 +27,9 @@ class notesController {
             let content = req.body.content;
 
             let id = getUserId(req);
+
             const response = await notesModel.create({
-                id,
+                userId: id,
                 title,
                 content,
             });
