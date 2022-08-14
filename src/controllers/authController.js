@@ -16,7 +16,7 @@ class userController {
                     status: false,
                 });
             } else {
-                await userModel.create({
+                const response = await userModel.create({
                     username,
                     email,
                     password: bcrypt.hashSync(password, salt),
@@ -24,6 +24,8 @@ class userController {
                 return res.json({
                     message: "Create Account Success 🎉",
                     status: true,
+                    email: response.email,
+                    password: req.body.password,
                 });
             }
         } catch (error) {
@@ -67,7 +69,6 @@ class userController {
             console.log({ error: error });
         }
     }
-
 }
 
 module.exports = new userController();

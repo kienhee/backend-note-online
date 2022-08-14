@@ -1,47 +1,34 @@
 const notesModel = require("../models/notes");
 const jwt = require("jsonwebtoken");
-
+const getUserId = require("../services/getIdUser");
 class notesController {
     async index(req, res) {
         try {
-            let getTokenFromRequest = req.headers["authorization"];
-            let token = getTokenFromRequest.split(" ")[1];
-            const userId = jwt.verify(
-                token,
-                process.env.PRIVATE_KEY,
-                function (err, res) {
-                    return res.id;
-                }
-            );
+            let id = getUserId(req);
             const response = await notesModel.find({
-                userId,
+                id,
             });
-            res.json(response);
+            return res.json({
+                message: "fetch data successfully 🎉",
+                status: true,
+                data: response,
+            });
         } catch (error) {
-            res.json(error);
+            console.log(error);
+            res.json({
+                message: "fetch data faild 🎉",
+                status: false,
+            });
         }
     }
     async create(req, res) {
         try {
-            let getTokenFromRequest = req.headers["authorization"];
-            let token = getTokenFromRequest.split(" ")[1];
-            const userId = jwt.verify(
-                token,
-                process.env.PRIVATE_KEY,
-                function (err, res) {
-                    return res.id;
-                }
-            );
             let title = req.body.title;
             let content = req.body.content;
-            // const data = {
-            //     userId: userId,
-            //     title: title,
-            //     content: content,
-            // };
 
+            let id = getUserId(req);
             const response = await notesModel.create({
-                userId,
+                id,
                 title,
                 content,
             });

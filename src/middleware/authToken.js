@@ -10,19 +10,22 @@ class authToken {
                     .json({ message: "token is valid", status: false });
             } else {
                 jwt.verify(token, process.env.PRIVATE_KEY, function (err, res) {
-                    if (err)
+                    if (err) {
+                        console.log(err);
                         return res.json({
                             message: "invalid token",
                             status: false,
                         });
-                    return res;
+                    } else {
+                        return res;
+                    }
                 });
                 next();
             }
         } catch (error) {
+            console.log(error);
             return res.json({
                 message: "invalid token",
-                error: error,
                 status: false,
             });
         }
