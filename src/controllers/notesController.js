@@ -4,10 +4,12 @@ const getUserId = require("../services/getIdUser");
 class notesController {
     async index(req, res) {
         try {
-            let id = getUserId(req);
+            let userId = getUserId(req);
+            console.log(userId);
             const response = await notesModel.find({
-                id,
+                userId,
             });
+            console.log(response);
             return res.json({
                 message: "fetch data successfully 🎉",
                 status: true,

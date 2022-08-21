@@ -44,7 +44,7 @@ class userController {
                     let username = user?.username;
                     let userId = user?.id;
                     let accessToken = jwt.sign(
-                        { id: user.id },
+                        { id: userId },
                         process.env.PRIVATE_KEY,
                         { expiresIn: "1h" }
                     );
@@ -55,12 +55,14 @@ class userController {
                         accessToken,
                     });
                 } else {
+                    console.log(email, comparePw);
                     return res.json({
                         message: "Account or Password is incorrect 💔",
                         status: false,
                     });
                 }
             } else {
+                  
                 return res.json({
                     message: "Account or Password is incorrect 💔",
                     status: false,
